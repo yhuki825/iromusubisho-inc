@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株式会社彩むすび書 | 人、組織、未来をむすぶ研修とクリエイティブ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===========================
+           基本スタイル
+        =========================== */
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #fdfcf8;
+            color: #1a1a1a;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif JP', serif;
+        }
+
+        /* ===========================
+           和紙風テクスチャ背景
+        =========================== */
+        .pattern-bg {
+            background-color: #fdfcf8;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23d4af37' fill-opacity='0.05'%3E%3Cpath d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h20v20H40V0zm20 20h20v20H60V20z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* ===========================
+           ヒーロー背景
+           水墨画調の富士山・霧の山並み
+        =========================== */
+        .hero-bg {
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(253, 252, 248, 0.55) 0%,
+                    rgba(253, 252, 248, 0.40) 50%,
+                    rgba(253, 252, 248, 0.65) 100%
+                ),
+                url('images/hero-bg.jpg');
+            background-size: cover;
+            background-position: center top;
+        }
+
+        /* ===========================
+           縦書きテキスト
+        =========================== */
+        .vertical-text {
+            writing-mode: vertical-rl;
+        }
+
+        /* ===========================
+           セクションタイトル下線（金色）
+        =========================== */
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(to right, #d4af37, #b8860b);
+            margin: 1rem auto;
+        }
+
+        /* ===========================
+           スクロールアニメーション
+        =========================== */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===========================
+           ヘッダー・ナビゲーション
+        =========================== */
+        header {
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+        }
+
+        /* ===========================
+           カード ホバーエフェクト
+        =========================== */
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* ===========================
+           引用スタイル（和風）
+        =========================== */
+        .wa-blockquote {
+            border-left: 3px solid #d4af37;
+            padding-left: 1.25rem;
+            font-style: italic;
+            color: #d4af37;
+        }
+
+        /* ===========================
+           フッター
+        =========================== */
+        footer a {
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: #b8860b;
+        }
+    </style>
+</head>
+<body class="pattern-bg">
+
+    <!-- ===========================
+         ヘッダー（固定）
+    =========================== -->
+    <header class="fixed w-full z-50 bg-white/90 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+            <!-- ロゴ -->
+            <div class="flex items-center gap-2">
+                <div class="text-2xl font-serif font-bold tracking-tighter">
+                    株式会社<span class="text-amber-700">彩むすび書</span>
+                </div>
+            </div>
+
+            <!-- ナビゲーション（PC） -->
+            <nav class="hidden md:flex gap-8 text-sm font-medium">
+                <a href="#about"    class="hover:text-amber-700 transition-colors duration-200">想い</a>
+                <a href="#services" class="hover:text-amber-700 transition-colors duration-200">事業内容</a>
+                <a href="#training" class="hover:text-amber-700 transition-colors duration-200">企業研修</a>
+                <a href="#profile"  class="hover:text-amber-700 transition-colors duration-200">会社概要</a>
+            </nav>
+
+            <!-- ハンバーガーメニュー（スマートフォン） -->
+            <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="メニューを開く">
+                <span class="block w-6 h-0.5 bg-stone-800 transition-all duration-300"></span>
+                <span class="block w-6 h-0.5 bg-stone-800 transition-all duration-300"></span>
+                <span class="block w-6 h-0.5 bg-stone-800 transition-all duration-300"></span>
+            </button>
+        </div>
+
+        <!-- モバイルメニュー -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 border-t border-amber-100">
+            <nav class="container mx-auto px-6 py-4 flex flex-col gap-4 text-sm font-medium">
+                <a href="#about"    class="hover:text-amber-700 transition-colors py-1">想い</a>
+                <a href="#services" class="hover:text-amber-700 transition-colors py-1">事業内容</a>
+                <a href="#training" class="hover:text-amber-700 transition-colors py-1">企業研修</a>
+                <a href="#profile"  class="hover:text-amber-700 transition-colors py-1">会社概要</a>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- ===========================
+         ヒーローセクション
+         背景：水墨画調の富士山・霧の山並み
+    =========================== -->
+    <section class="relative min-h-screen flex items-center justify-center hero-bg overflow-hidden pt-20">
+
+        <!-- 装飾：金色の波形 -->
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-10">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M0,100 C30,80 70,120 100,100 L100,0 L0,0 Z" fill="#d4af37"></path>
+            </svg>
+        </div>
+
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10 py-16">
+
+            <!-- キャッチコピー -->
+            <div class="order-2 md:order-1">
+                <p class="text-amber-700 text-sm font-medium tracking-[0.3em] mb-4">IROMUSUBISHO Co., Ltd.</p>
+                <h1 class="font-serif text-5xl md:text-7xl leading-tight mb-6">
+                    人、組織、<br>
+                    未来を<span class="text-amber-700">むすぶ。</span>
+                </h1>
+                <p class="text-lg text-gray-700 leading-relaxed mb-8 border-l-4 border-amber-600 pl-4">
+                    言葉の彩りで心を整え、学びの仕組みで組織を強くする。<br>
+                    静岡から全国へ、成長の種を届ける教育研修のプロフェッショナル集団。
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#services"
+                       class="bg-stone-800 text-white px-8 py-3 rounded-sm hover:bg-stone-700 transition-all duration-200 font-medium tracking-wide">
+                        事業内容を見る
+                    </a>
+                    <a href="#about"
+                       class="border border-stone-800 text-stone-800 px-8 py-3 rounded-sm hover:bg-stone-50 transition-all duration-200 font-medium tracking-wide">
+                        私たちの想い
+                    </a>
+                </div>
+            </div>
+
+            <!-- 縦書きロゴ装飾 -->
+            <div class="order-1 md:order-2 flex justify-center">
+                <div class="relative">
+                    <div class="vertical-text font-serif text-4xl md:text-5xl tracking-widest
+                                text-stone-800 bg-white/50 p-6 border border-amber-200 backdrop-blur-sm
+                                shadow-sm">
+                        彩むすび書
+                    </div>
+                    <!-- 装飾円 -->
+                    <div class="absolute -bottom-10 -right-10 w-64 h-64 border-2 border-amber-200
+                                rounded-full opacity-40 pointer-events-none"></div>
+                    <div class="absolute -top-6 -left-6 w-32 h-32 border border-amber-300
+                                rounded-full opacity-30 pointer-events-none"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- スクロール誘導 -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+            <span class="text-xs tracking-[0.3em] text-amber-800">SCROLL</span>
+        </div>
+    </section>
+
+
+    <!-- ===========================
+         私たちの想い（About）
+         背景：書道の筆を走らせる手元
+    =========================== -->
+    <section id="about" class="py-24 bg-white">
+        <div class="container mx-auto px-6 max-w-5xl">
+
+            <!-- セクションタイトル -->
+            <div class="scroll-reveal text-center mb-16">
+                <h2 class="font-serif text-3xl md:text-4xl section-title">私たちの想い</h2>
+                <p class="text-amber-700 font-medium tracking-[0.3em] mt-4">CONCEPT</p>
+            </div>
+
+            <div class="scroll-reveal grid md:grid-cols-2 gap-12 items-center">
+
+                <!-- 書道の画像 -->
+                <div class="rounded-sm overflow-hidden shadow-xl">
+                    <img src="images/calligraphy-about.jpg"
+                         alt="書道の筆を走らせる手元 ― 彩むすび書の想いを体現する一瞬"
+                         class="w-full h-auto object-cover"
+                         loading="lazy">
+                </div>
+
+                <!-- テキスト -->
+                <div>
+                    <h3 class="font-serif text-2xl mb-6 leading-snug">
+                        「彩」と「むすび」が創る<br>新しい価値
+                    </h3>
+                    <p class="text-gray-700 leading-loose mb-6">
+                        私たちは「彩（いろどり）」が持つ多様性と、「むすび」が持つ繋がりの力を信じています。
+                        企業研修を通じて個人の能力に彩りを添え、組織としての絆をむすび直す。
+                        そして、書画という伝統文化を通じて、言葉に魂を宿し、想いを形にする。
+                    </p>
+                    <p class="text-gray-700 leading-loose">
+                        論理的なビジネススキルと、感性を磨く芸術的アプローチ。
+                        その両輪で、変化の激しい現代社会を生き抜く「真の強さ」を育みます。
+                    </p>
+
+                    <!-- 装飾ライン -->
+                    <div class="mt-8 pt-8 border-t border-amber-100">
+                        <p class="text-sm text-amber-700 tracking-widest font-medium">
+                            静岡から全国へ ― 学びと「むすび」を届ける
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===========================
+         事業内容（Services）
+    =========================== -->
+    <section id="services" class="py-24 pattern-bg">
+        <div class="container mx-auto px-6">
+
+            <!-- セクションタイトル -->
+            <div class="scroll-reveal text-center mb-16">
+                <h2 class="font-serif text-3xl md:text-4xl section-title">事業内容</h2>
+                <p class="text-amber-700 font-medium tracking-[0.3em] mt-4">BUSINESS DIVISIONS</p>
+                <p class="mt-6 text-gray-600 max-w-xl mx-auto leading-relaxed">
+                    教育研修からクリエイティブ、出版まで。多角的な視点で事業を支援します。
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+
+                <!-- カード 1：教育・人材開発 -->
+                <div class="scroll-reveal service-card bg-white p-8 border-t-4 border-amber-600 shadow-sm hover:shadow-xl">
+                    <div class="w-12 h-12 mb-6 flex items-center justify-center bg-amber-50 rounded-sm">
+                        <svg class="w-6 h-6 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13
+                                     C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13
+                                     C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13
+                                     C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-xl mb-4">教育・人材開発</h3>
+                    <ul class="text-sm text-gray-600 space-y-3">
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-600 mt-0.5">―</span>
+                            <span>教育研修サービスの提供</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-600 mt-0.5">―</span>
+                            <span>次世代講師の育成指導</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-600 mt-0.5">―</span>
+                            <span>研修用コンテンツの開発及び販売</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-600 mt-0.5">―</span>
+                            <span>研修用機器及びツールの提供</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- カード 2：書画・メディア -->
+                <div class="scroll-reveal service-card bg-white p-8 border-t-4 border-stone-800 shadow-sm hover:shadow-xl">
+                    <div class="w-12 h-12 mb-6 flex items-center justify-center bg-stone-50 rounded-sm">
+                        <svg class="w-6 h-6 text-stone-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536
+                                     L6.5 21.036H3v-3.572L16.732 3.732z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-xl mb-4">書画・メディア</h3>
+                    <ul class="text-sm text-gray-600 space-y-3">
+                        <li class="flex items-start gap-2">
+                            <span class="text-stone-500 mt-0.5">―</span>
+                            <span>研修用ソフトウェアの開発及び販売</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-stone-500 mt-0.5">―</span>
+                            <span>書画及び書画コンテンツの制作</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-stone-500 mt-0.5">―</span>
+                            <span>書画教室の運営</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-stone-500 mt-0.5">―</span>
+                            <span>通信販売及び動画コンテンツ販売</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- カード 3：コンサル・出版 -->
+                <div class="scroll-reveal service-card bg-white p-8 border-t-4 border-amber-600 shadow-sm hover:shadow-xl">
+                    <div class="w-12 h-12 mb-6 flex items-center justify-center bg-amber-50 rounded-sm">
+                        <svg class="w-6 h-6 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0
+                                     V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0
+                                     V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-xl mb-4">コンサル・出版</h3>
+                    <ul class="text-sm text-gray-600 space-y-3">
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-600 mt-0.5">―</span>
+                            <span>経営コンサルティング業</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-600 mt-0.5">―</span>
+                            <span>セミナー及びイベントの企画運営</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-600 mt-0.5">―</span>
+                            <span>書籍及び雑誌の出版</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===========================
+         企業研修（Training）
+         背景：暗い石の壁 + 和の画像
+    =========================== -->
+    <section id="training" class="py-24 bg-stone-900 text-white overflow-hidden relative">
+
+        <!-- 装飾：縦書き大文字 -->
+        <div class="absolute right-0 top-0 w-1/3 h-full opacity-5 pointer-events-none overflow-hidden">
+            <div class="vertical-text font-serif text-9xl tracking-[2rem] text-white select-none">
+                教育研修
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+
+            <!-- セクションタイトル -->
+            <div class="scroll-reveal mb-16">
+                <h2 class="font-serif text-3xl md:text-4xl text-amber-400">主力事業：企業研修</h2>
+                <p class="mt-3 text-stone-400 tracking-[0.2em] text-sm">CORPORATE TRAINING SOLUTIONS</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-16 items-start">
+
+                <!-- 研修の特徴 -->
+                <div class="scroll-reveal space-y-10">
+                    <div>
+                        <h4 class="font-serif text-xl text-amber-300 mb-3">オーダーメイド研修の設計</h4>
+                        <p class="text-stone-300 leading-relaxed">
+                            各企業の課題に合わせ、管理職研修から新入社員教育まで最適なカリキュラムを構築。
+                            机上の空論ではない、現場で活きる実践知を提供します。
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-serif text-xl text-amber-300 mb-3">最新テクノロジーの活用</h4>
+                        <p class="text-stone-300 leading-relaxed">
+                            自社開発の研修用ソフトウェアやデジタルコンテンツを融合。
+                            対面研修の熱量と、デジタルの効率性を掛け合わせた次世代の学びを実現します。
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-serif text-xl text-amber-300 mb-3">文化と感性の融合</h4>
+                        <p class="text-stone-300 leading-relaxed">
+                            書画を通じたマインドフルネスやチームビルディングなど、日本独自の文化を研修に取り入れることで、
+                            感性を刺激し、多角的な視点を養います。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 画像 + 引用 -->
+                <div class="scroll-reveal">
+                    <div class="border border-stone-700 overflow-hidden">
+                        <!-- 和の庭園・研修イメージ画像 -->
+                        <img src="images/japanese-garden.jpg"
+                             alt="日本庭園 ― 静謐な空間で育まれる学びのイメージ"
+                             class="w-full h-64 object-cover object-center opacity-75"
+                             loading="lazy">
+                        <div class="p-8 bg-stone-800">
+                            <blockquote class="wa-blockquote font-serif text-lg leading-relaxed">
+                                「教える」のではなく、共に「気づき」を。
+                                彩むすび書の研修は、組織の深層にある可能性を引き出し、
+                                永続的な成長へと繋げます。
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===========================
+         書画・文化セクション（追加）
+         霧の山の画像を活用した中間バナー
+    =========================== -->
+    <section class="relative py-32 overflow-hidden">
+        <!-- 背景：霧の山（水墨画的） -->
+        <div class="absolute inset-0">
+            <img src="images/mountain-mist.jpg"
+                 alt="霧に包まれた山 ― 水墨画のような静謐な風景"
+                 class="w-full h-full object-cover object-center">
+            <div class="absolute inset-0 bg-white/70"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <div class="scroll-reveal max-w-2xl mx-auto">
+                <p class="text-amber-700 text-sm font-medium tracking-[0.3em] mb-4">PHILOSOPHY</p>
+                <h2 class="font-serif text-3xl md:text-4xl text-stone-800 leading-snug mb-6">
+                    書の道は、人の道。
+                </h2>
+                <p class="text-gray-700 leading-loose">
+                    一筆一筆に心を込めるように、一つひとつの研修に魂を込める。伝統と革新が交わるところに、彩むすび書の価値があります。
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===========================
+         会社情報（Profile）
+    =========================== -->
+    <section id="profile" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+
+            <!-- セクションタイトル -->
+            <div class="scroll-reveal text-center mb-16">
+                <h2 class="font-serif text-3xl md:text-4xl section-title">会社情報</h2>
+                <p class="text-amber-700 font-medium tracking-[0.3em] mt-4">COMPANY PROFILE</p>
+            </div>
+
+            <div class="scroll-reveal max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
+
+                <!-- 会社概要テーブル -->
+                <div class="space-y-6">
+                    <div class="border-b border-gray-100 pb-4">
+                        <p class="text-xs text-amber-700 mb-1 tracking-widest">社名</p>
+                        <p class="font-serif text-lg">株式会社彩むすび書</p>
+                    </div>
+                    <div class="border-b border-gray-100 pb-4">
+                        <p class="text-xs text-amber-700 mb-1 tracking-widest">英語表記</p>
+                        <p class="text-gray-800">IROMUSUBISHO Co., Ltd.</p>
+                    </div>
+                    <div class="border-b border-gray-100 pb-4">
+                        <p class="text-xs text-amber-700 mb-1 tracking-widest">代表取締役</p>
+                        <p class="font-serif text-lg">守屋 真紀子</p>
+                    </div>
+                    <div class="border-b border-gray-100 pb-4">
+                        <p class="text-xs text-amber-700 mb-1 tracking-widest">所在地</p>
+                        <p class="text-gray-800">〒425-0051<br>静岡県焼津市田尻北380-1</p>
+                    </div>
+                </div>
+
+                <!-- 代表者メッセージ -->
+                <div class="bg-stone-50 p-8 border-l-2 border-amber-200">
+                    <h3 class="font-serif text-xl mb-4 text-stone-800">代表者メッセージ</h3>
+                    <p class="text-gray-600 leading-relaxed text-sm">
+                        情報が溢れる現代だからこそ、私たちは「書」という不変の文化と、「教育」という未来への投資を大切にしています。
+                    </p>
+                    <p class="text-gray-600 leading-relaxed text-sm mt-4">
+                        静岡の地から、全国の企業様、そして個人の方々へ、彩り豊かな学びと心温まる「むすび」を提供し続けること。それが私たちの使命です。皆様の事業が、より鮮やかに花開くためのお手伝いをさせていただきます。
+                    </p>
+                    <p class="mt-6 text-right font-serif text-sm text-stone-700">
+                        代表取締役　守屋 真紀子
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===========================
+         フッター
+    =========================== -->
+    <footer class="bg-stone-900 text-white py-16 border-t border-stone-700">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+
+                <!-- ブランド情報 -->
+                <div>
+                    <div class="font-serif text-xl font-bold mb-2">
+                        株式会社<span class="text-amber-400">彩むすび書</span>
+                    </div>
+                    <p class="text-sm text-stone-400 mb-4">IROMUSUBISHO Co., Ltd.</p>
+                    <p class="text-xs text-stone-500 leading-relaxed">
+                        人、組織、未来をむすぶ<br>
+                        教育研修とクリエイティブの会社
+                    </p>
+                </div>
+
+                <!-- サイトマップ -->
+                <div>
+                    <h4 class="text-sm font-medium tracking-widest text-stone-400 mb-4">SITE MAP</h4>
+                    <nav class="space-y-2 text-sm text-stone-300">
+                        <a href="#about"    class="block hover:text-amber-400 transition-colors">想い</a>
+                        <a href="#services" class="block hover:text-amber-400 transition-colors">事業内容</a>
+                        <a href="#training" class="block hover:text-amber-400 transition-colors">企業研修</a>
+                        <a href="#profile"  class="block hover:text-amber-400 transition-colors">会社概要</a>
+                    </nav>
+                </div>
+
+                <!-- 所在地 -->
+                <div>
+                    <h4 class="text-sm font-medium tracking-widest text-stone-400 mb-4">LOCATION</h4>
+                    <address class="not-italic text-sm text-stone-300 leading-relaxed">
+                        〒425-0051<br>
+                        静岡県焼津市田尻北380-1
+                    </address>
+                </div>
+            </div>
+
+            <!-- コピーライト -->
+            <div class="border-t border-stone-700 pt-8 text-center">
+                <p class="text-xs text-stone-500">
+                    &copy; 2024 IROMUSUBISHO Co., Ltd. All Rights Reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ===========================
+         JavaScript
+    =========================== -->
+    <script>
+        // -----------------------------------------------
+        // スクロールアニメーション（Intersection Observer）
+        // -----------------------------------------------
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        document.querySelectorAll('.scroll-reveal').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // -----------------------------------------------
+        // スムーズスクロール
+        // -----------------------------------------------
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const top = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+                // モバイルメニューを閉じる
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+        // -----------------------------------------------
+        // ハンバーガーメニュー（スマートフォン）
+        // -----------------------------------------------
+        const menuBtn  = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+</body>
+</html>
